@@ -73,6 +73,15 @@ pipeline{
                }
             }
         }
+        stage('Push JAR to JFrog :Python'){
+            when{ expression {params.action == 'create'}}
+             steps{
+                script{
+                    
+                    jarPush()
+                }
+             }
+        }
         stage('Docker Image Build'){
          when { expression {  params.action == 'create' } }
             steps{
@@ -108,6 +117,6 @@ pipeline{
                    dockerImageCleanup("${params.ImageName}","${params.ImageTag}","${params.DockerHubUser}")
                }
             }
-        }      
+        } 
     }
 }
